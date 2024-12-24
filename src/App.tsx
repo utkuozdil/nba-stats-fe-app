@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { NBAService } from './services/api.service';
 import { GameResponse } from './types/nba.types';
+import TeamStandings from './components/TeamStandings';
+import GamesList from './components/GamesList';
+import Sidebar from './components/Sidebar';
+import Leaders from './components/Leaders';
 
 function App() {
   const [games, setGames] = useState<GameResponse | null>(null);
@@ -9,20 +13,22 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState(() => {
     const today = new Date();
-    return today.toISOString().split('T')[0];  // Format: YYYY-MM-DD
+    return today.toISOString().split('T')[0];
   });
+  const [showDatePicker, setShowDatePicker] = useState(true);
+
+  const handleNavigation = (section: string, showPicker: boolean) => {
+    setShowDatePicker(showPicker);
+  };
 
   useEffect(() => {
     const fetchGames = async () => {
       try {
         setLoading(true);
-        console.log('Fetching games for date:', selectedDate);
         const data = await NBAService.getGamesByDate(selectedDate);
-        console.log('API Response:', data);
         setGames(data);
         setError(null);
       } catch (err) {
-        console.error('API Error:', err);
         setError(err instanceof Error ? err.message : 'Failed to fetch NBA games');
       } finally {
         setLoading(false);
@@ -31,38 +37,6 @@ function App() {
 
     fetchGames();
   }, [selectedDate]);
-
-  const renderGames = () => {
-    if (loading) return <div className="loading">Loading NBA games...</div>;
-    if (error) return <div className="error">{error}</div>;
-    if (!games?.games || games.games.length === 0) {
-      return <div className="no-games">No games scheduled for this date</div>;
-    }
-
-    return (
-      <div className="game-grid">
-        {games.games.map((game, index) => {
-          const [team1, team2] = Object.entries(game);
-          return (
-            <div key={index} className="game-card">
-              <div className="teams">
-                <div className="team home">
-                  <h3>{team1[0]}</h3>
-                  <div className="score">{team1[1]}</div>
-                </div>
-                <div className="vs">VS</div>
-                <div className="team away">
-                  <h3>{team2[0]}</h3>
-                  <div className="score">{team2[1]}</div>
-                </div>
-              </div>
-              <div className="status">Final</div>
-            </div>
-          );
-        })}
-      </div>
-    );
-  };
 
   // Helper function to format date for min/max attributes
   const formatDate = (date: Date) => {
@@ -86,9 +60,10 @@ function App() {
 
   return (
     <div className="App">
+      <Sidebar onNavigate={handleNavigation} />
       <header className="App-header">
         <h1>NBA Stats</h1>
-        <div className="date-picker">
+        <div className={`date-picker ${showDatePicker ? 'visible' : 'hidden'}`}>
           <input
             type="date"
             value={selectedDate}
@@ -100,7 +75,23 @@ function App() {
         </div>
       </header>
       <main className="container">
-        {renderGames()}
+        <section id="games">
+          <GamesList 
+            selectedDate={selectedDate}
+            setGames={setGames}
+            setLoading={setLoading}
+            setError={setError}
+            games={games}
+            loading={loading}
+            error={error}
+          />
+        </section>
+        <section id="standings">
+          <TeamStandings />
+        </section>
+        <section id="leaders">
+          <Leaders />
+        </section>
       </main>
     </div>
   );

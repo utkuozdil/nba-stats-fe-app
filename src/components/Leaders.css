@@ -1,0 +1,120 @@
+.leaders-container {
+  background: rgba(40, 44, 52, 0.95);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.leaders-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.leaders-header h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(45deg, #61dafb, #a8edff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.category-select {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 1rem;
+  background: rgba(30, 33, 40, 0.6);
+  border-radius: 12px;
+}
+
+.category-btn {
+  padding: 0.6rem 1.2rem;
+  border: 2px solid rgba(97, 218, 251, 0.3);
+  border-radius: 8px;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.category-btn:hover {
+  border-color: rgba(97, 218, 251, 0.8);
+  background: rgba(97, 218, 251, 0.1);
+}
+
+.category-btn.active {
+  background: rgba(97, 218, 251, 0.2);
+  border-color: #61dafb;
+  color: #61dafb;
+}
+
+.leaders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.leader-card {
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  align-items: center;
+  padding: 1rem;
+  background: rgba(30, 33, 40, 0.6);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.leader-card:hover {
+  transform: translateX(4px);
+  background: rgba(97, 218, 251, 0.05);
+}
+
+.rank {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #61dafb;
+  text-align: center;
+}
+
+.player-info {
+  padding: 0 1rem;
+}
+
+.player-name {
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.team-name {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.stat-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #61dafb;
+  font-family: 'Inter', monospace;
+}
+
+@media (max-width: 768px) {
+  .leaders-container {
+    padding: 1rem;
+  }
+
+  .category-select {
+    padding: 0.5rem;
+  }
+
+  .category-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+} 
