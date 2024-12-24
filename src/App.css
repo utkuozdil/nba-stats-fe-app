@@ -8,7 +8,7 @@
 
 .App-header {
   background: rgba(40, 44, 52, 0.95);
-  padding: 2rem;
+  padding: 3rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,18 +18,39 @@
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
 }
 
 .App-header h1 {
   margin: 0;
-  font-size: 2.5rem;
-  font-weight: 700;
-  background: linear-gradient(45deg, #61dafb, #a8edff);
+  font-size: 4rem;
+  font-weight: 800;
+  background: linear-gradient(45deg, #61dafb, #a8edff, #61dafb);
+  background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  animation: shine 3s linear infinite;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   font-family: 'Inter', sans-serif;
-  letter-spacing: -0.5px;
+  letter-spacing: -1px;
+  position: relative;
+}
+
+.App-header h1::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    rgba(97, 218, 251, 0) 0%,
+    rgba(97, 218, 251, 0.8) 50%,
+    rgba(97, 218, 251, 0) 100%
+  );
+  border-radius: 2px;
 }
 
 .date-picker {
@@ -78,11 +99,35 @@
 .game-card {
   background: rgba(40, 44, 52, 0.95);
   border-radius: 16px;
-  padding: 1.5rem;
+  padding: 2rem 1rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+}
+
+.game-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 16px;
+  padding: 2px;
+  background: linear-gradient(45deg, 
+    rgba(97, 218, 251, 0.1),
+    rgba(255, 255, 255, 0.1)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
 .game-card:hover {
@@ -96,37 +141,48 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
+  padding: 0 1rem;
 }
 
 .team {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   padding: 0.5rem;
 }
 
 .team h3 {
-  font-size: 1.1rem;
-  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  margin: 0 0 1rem 0;
   color: #fff;
   font-weight: 600;
   line-height: 1.4;
   letter-spacing: -0.3px;
+  min-height: 2.8em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .vs {
-  margin: 0 1rem;
+  margin: 0 2rem;
   font-weight: bold;
   color: rgba(255, 255, 255, 0.5);
   font-size: 1.2rem;
+  flex: 0 0 auto;
 }
 
 .score {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 3.5rem;
+  font-weight: 800;
   color: #61dafb;
   text-shadow: 0 0 10px rgba(97, 218, 251, 0.3);
-  margin-top: 0.5rem;
+  margin-top: auto;
   font-family: 'Inter', sans-serif;
-  letter-spacing: -0.5px;
+  letter-spacing: -1px;
+  line-height: 1;
 }
 
 .status {
@@ -177,6 +233,11 @@
   100% { opacity: 1; }
 }
 
+@keyframes shine {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
 @media (max-width: 768px) {
   .game-grid {
     grid-template-columns: 1fr;
@@ -188,7 +249,7 @@
   }
 
   .App-header h1 {
-    font-size: 2rem;
+    font-size: 3rem;
   }
 
   .game-card {
@@ -197,5 +258,11 @@
 
   .score {
     font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .App-header h1 {
+    font-size: 2.5rem;
   }
 } 
