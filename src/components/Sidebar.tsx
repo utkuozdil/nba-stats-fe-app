@@ -1,12 +1,8 @@
 import React from 'react';
 import './Sidebar.css';
 
-interface SidebarProps {
-  onNavigate: (section: string, showDatePicker: boolean) => void;
-}
-
-const Sidebar: React.FC<SidebarProps> = ({ onNavigate }) => {
-  const handleNavigation = (id: string, showDatePicker: boolean) => {
+const Sidebar: React.FC = () => {
+  const handleNavigation = (id: string) => {
     const element = document.getElementById(id);
     const header = document.querySelector('.App-header');
     if (element && header) {
@@ -17,8 +13,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate }) => {
         top: elementPosition - headerHeight - 20,
         behavior: 'smooth'
       });
-      
-      onNavigate(id, showDatePicker);
     }
   };
 
@@ -27,19 +21,19 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate }) => {
       <nav className="sidebar-nav">
         <button 
           className="nav-item" 
-          onClick={() => handleNavigation('games', true)}
+          onClick={() => handleNavigation('games')}
         >
           Games
         </button>
         <button 
           className="nav-item" 
-          onClick={() => handleNavigation('standings', false)}
+          onClick={() => handleNavigation('standings')}
         >
           Standings
         </button>
         <button 
           className="nav-item" 
-          onClick={() => handleNavigation('leaders', false)}
+          onClick={() => handleNavigation('leaders')}
         >
           Leaders
         </button>
