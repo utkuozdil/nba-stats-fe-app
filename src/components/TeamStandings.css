@@ -1,0 +1,174 @@
+.standings-container {
+  background: rgba(40, 44, 52, 0.95);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.filter-controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.filter-select {
+  padding: 0.6rem 1.2rem;
+  border: 2px solid rgba(97, 218, 251, 0.3);
+  border-radius: 8px;
+  background: rgba(30, 33, 40, 0.6);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  min-width: 150px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M2.5 4.5L6 8L9.5 4.5' stroke='%2361dafb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+.filter-select:hover {
+  border-color: rgba(97, 218, 251, 0.8);
+  background-color: rgba(97, 218, 251, 0.1);
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #61dafb;
+  box-shadow: 0 0 0 3px rgba(97, 218, 251, 0.2);
+}
+
+.standings-table {
+  background: rgba(30, 33, 40, 0.6);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.standings-header {
+  display: grid;
+  grid-template-columns: 1fr repeat(3, 80px);
+  padding: 1rem 1.5rem;
+  background: rgba(97, 218, 251, 0.1);
+  font-weight: 600;
+  color: #61dafb;
+  border-bottom: 1px solid rgba(97, 218, 251, 0.2);
+}
+
+.standings-row {
+  display: grid;
+  grid-template-columns: 1fr repeat(3, 80px);
+  padding: 1rem 1.5rem;
+  align-items: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.standings-row::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 1.5rem;
+  right: 1.5rem;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    rgba(97, 218, 251, 0),
+    rgba(97, 218, 251, 0.1),
+    rgba(97, 218, 251, 0)
+  );
+}
+
+.standings-row:hover {
+  background: rgba(97, 218, 251, 0.1);
+  transform: translateX(8px);
+}
+
+.team-cell {
+  font-weight: 600;
+  text-align: left;
+  letter-spacing: 0.3px;
+  padding-right: 1rem;
+}
+
+.record-cell {
+  font-family: 'Inter', monospace;
+  font-weight: 500;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Playoff position indicators */
+.standings-row:nth-child(-n+8)::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(to bottom, #61dafb, rgba(97, 218, 251, 0.3));
+  opacity: 0.8;
+}
+
+/* Top 3 teams */
+.standings-row:nth-child(-n+3) .team-cell {
+  color: #61dafb;
+  font-weight: 700;
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 2.5rem;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(40, 44, 52, 0.95);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.error {
+  color: #ff6b6b;
+  border-color: rgba(255, 107, 107, 0.3);
+}
+
+@media (max-width: 768px) {
+  .standings-container {
+    padding: 1rem;
+  }
+
+  .filter-controls {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .filter-select {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .standings-header,
+  .standings-row {
+    grid-template-columns: 1fr repeat(3, 60px);
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .standings-row:hover {
+    transform: translateX(4px);
+  }
+
+  .team-cell {
+    font-size: 0.9rem;
+  }
+
+  .record-cell {
+    font-size: 0.9rem;
+  }
+} 

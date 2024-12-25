@@ -1,0 +1,143 @@
+.games-container {
+  margin: 2rem 0;
+}
+
+.games-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 2rem;
+  padding: 1rem 0;
+}
+
+.game-card {
+  background: rgba(40, 44, 52, 0.95);
+  border-radius: 16px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.game-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 16px;
+  padding: 2px;
+  background: linear-gradient(45deg, 
+    rgba(97, 218, 251, 0.1),
+    rgba(255, 255, 255, 0.1)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.game-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(97, 218, 251, 0.15);
+  border-color: rgba(97, 218, 251, 0.3);
+}
+
+.team {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: rgba(30, 33, 40, 0.6);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.team:hover {
+  background: rgba(97, 218, 251, 0.1);
+}
+
+.team::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    rgba(97, 218, 251, 0),
+    rgba(97, 218, 251, 0.2),
+    rgba(97, 218, 251, 0)
+  );
+}
+
+.team-name {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #fff;
+  flex: 1;
+  text-align: left;
+  padding-left: 1.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.5px;
+}
+
+.team-score {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #61dafb;
+  min-width: 60px;
+  text-align: right;
+  padding-right: 1.5rem;
+  font-family: 'Inter', monospace;
+  text-shadow: 0 0 10px rgba(97, 218, 251, 0.3);
+}
+
+.loading, .error, .no-games {
+  text-align: center;
+  padding: 2.5rem;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(40, 44, 52, 0.95);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.error {
+  color: #ff6b6b;
+  border-color: rgba(255, 107, 107, 0.3);
+}
+
+@media (max-width: 768px) {
+  .games-list {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .game-card {
+    padding: 1.5rem;
+  }
+
+  .team {
+    padding: 0.8rem;
+  }
+
+  .team-name {
+    font-size: 1.1rem;
+    padding-left: 1rem;
+  }
+
+  .team-score {
+    font-size: 1.5rem;
+    padding-right: 1rem;
+  }
+} 

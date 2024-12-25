@@ -1,0 +1,140 @@
+.App {
+  text-align: center;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  min-height: 100vh;
+  color: white;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.App-header {
+  background: rgba(40, 44, 52, 0.95);
+  padding: 2rem 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  overflow: hidden;
+  min-height: 120px;
+  transition: padding 0.3s ease;
+}
+
+.App-header:has(.date-picker.hidden) {
+  padding: 1.5rem 2rem;
+}
+
+.App-header h1 {
+  margin: 0;
+  font-size: 4rem;
+  font-weight: 800;
+  background: linear-gradient(45deg, #61dafb, #a8edff, #61dafb);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 3s linear infinite;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -1px;
+  position: relative;
+}
+
+.App-header h1::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    rgba(97, 218, 251, 0) 0%,
+    rgba(97, 218, 251, 0.8) 50%,
+    rgba(97, 218, 251, 0) 100%
+  );
+  border-radius: 2px;
+}
+
+.date-picker {
+  margin: 1.5rem 0;
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.3s ease;
+  max-height: 100px;
+  transform: translateY(0);
+}
+
+.date-picker.hidden {
+  opacity: 0;
+  visibility: hidden;
+  margin: 0;
+  max-height: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+}
+
+.date-input {
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  border: 2px solid rgba(97, 218, 251, 0.3);
+  border-radius: 12px;
+  background: rgba(40, 44, 52, 0.8);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.date-input:hover {
+  border-color: rgba(97, 218, 251, 0.8);
+  background: rgba(40, 44, 52, 0.9);
+  transform: translateY(-2px);
+}
+
+.date-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(97, 218, 251, 0.2);
+  border-color: #61dafb;
+}
+
+.container {
+  padding: 2rem 2rem 2rem 5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+section {
+  scroll-margin-top: 2rem;
+}
+
+@keyframes shine {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+@media (max-width: 768px) {
+  .App-header {
+    padding: 1.5rem 1rem;
+  }
+
+  .App-header h1 {
+    font-size: 3rem;
+  }
+
+  .container {
+    padding: 2rem 1rem 5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .App-header h1 {
+    font-size: 2.5rem;
+  }
+} 
