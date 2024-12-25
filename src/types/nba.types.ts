@@ -25,7 +25,16 @@ export interface TeamFilters {
   team_name?: string;
 } 
 
-export type StatCategory = 'points' | 'rebounds' | 'assists' | 'blocks' | 'steals';
+export type StatCategory = 
+  | 'points' 
+  | 'rebounds' 
+  | 'assists' 
+  | 'blocks' 
+  | 'steals'
+  | 'field_goal_percentage'
+  | 'free_throw_percentage'
+  | 'three_point_percentage'
+  | 'minutes_played';
 export type StatType = 'average' | 'total';
 
 export interface LeaderFilters {
@@ -33,6 +42,7 @@ export interface LeaderFilters {
   category: StatCategory;
   teamName?: string;
   limit?: number;
+  page?: number;
   type?: StatType;
 }
 
@@ -44,8 +54,13 @@ export interface Leader {
   total_rebound?: number;
   assist_count?: number;
   block_count?: number;
+  field_goal_percentage?: number;
+  free_throw_percentage?: number;
+  three_point_percentage?: number;
+  minutes_played?: number;
 }
 
 export interface LeadersResponse {
   leaders: Leader[];
+  total_count: number;
 } 

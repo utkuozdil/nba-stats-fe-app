@@ -10,8 +10,8 @@ const api = axios.create({
   withCredentials: false
 });
 
-export const NBAService = {
-  getGamesByDate: async (date: string): Promise<GameResponse> => {
+export class NBAService {
+  static async getGamesByDate(date: string): Promise<GameResponse> {
     try {
       const { data } = await api.get<GameResponse>(buildGamesUrl(date));
       return data;
@@ -21,8 +21,9 @@ export const NBAService = {
       }
       throw error;
     }
-  },
-  getTeams: async (filters: TeamFilters): Promise<TeamResponse[]> => {
+  }
+
+  static async getTeams(filters: TeamFilters): Promise<TeamResponse[]> {
     try {
       const params = new URLSearchParams();
       params.append('season', filters.season.toString());
@@ -39,24 +40,26 @@ export const NBAService = {
       }
       throw error;
     }
-  },
-  getLeaders: async (filters: LeaderFilters): Promise<LeadersResponse> => {
-    try {
-      const params = new URLSearchParams();
-      params.append('season', filters.season.toString());
-      params.append('category', filters.category);
-      
-      if (filters.teamName) params.append('teamName', filters.teamName);
-      if (filters.limit) params.append('limit', filters.limit.toString());
-      if (filters.type) params.append('type', filters.type);
+  }
 
-      const { data } = await api.get<LeadersResponse>(`/dev/leaders?${params.toString()}`);
-      return data;
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(error.response?.data?.message || error.message);
+  static async getLeaders({ season, category, type }: LeaderFilters): Promise<LeadersResponse> {
+    try {
+      const params = new URLSearchParams({
+        season: season.toString(),
+        category
+      });
+
+      if (type) {
+        params.append('type', type);
       }
+
+      const url = `/dev/leaders?${params.toString()}`;
+      const response = await api.get<LeadersResponse>(url);
+      
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching leaders:', error);
       throw error;
     }
   }
-}; 
+} 
