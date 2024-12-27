@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GameResponse, TeamResponse, TeamFilters, LeaderFilters, LeadersResponse } from '../types/nba.types';
+import { GameResponse, TeamResponse, TeamFilters, LeaderFilters, LeadersResponse, StatsData } from '../types/nba.types';
 import { API_CONFIG, buildGamesUrl } from '../config/api.config';
 
 const api = axios.create({
@@ -59,6 +59,18 @@ export class NBAService {
       return response.data;
     } catch (error) {
       console.error('Error fetching leaders:', error);
+      throw error;
+    }
+  }
+
+  static async getAdvancedStats(category: string): Promise<{ leaders: StatsData[] }> {
+    try {
+      const { data } = await api.get(`/dev/advanced-stats?category=${category}`);
+      return data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data?.message || error.message);
+      }
       throw error;
     }
   }

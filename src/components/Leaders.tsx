@@ -20,16 +20,16 @@ const Leaders: React.FC = () => {
     return ['field_goal_percentage', 'free_throw_percentage', 'three_point_percentage'].includes(cat);
   };
 
-  const categories: { value: StatCategory; label: string }[] = [
-    { value: 'points', label: 'Points' },
-    { value: 'rebounds', label: 'Rebounds' },
-    { value: 'assists', label: 'Assists' },
-    { value: 'blocks', label: 'Blocks' },
-    { value: 'steals', label: 'Steals' },
-    { value: 'field_goal_percentage', label: 'FG%' },
-    { value: 'free_throw_percentage', label: 'FT%' },
-    { value: 'three_point_percentage', label: '3P%' },
-    { value: 'minutes_played', label: 'Minutes' }
+  const categories: { id: StatCategory; label: string }[] = [
+    { id: 'points', label: 'Points' },
+    { id: 'rebounds', label: 'Rebounds' },
+    { id: 'assists', label: 'Assists' },
+    { id: 'steals', label: 'Steals' },
+    { id: 'blocks', label: 'Blocks' },
+    { id: 'field_goal_percentage', label: 'FG%' },
+    { id: 'free_throw_percentage', label: 'FT%' },
+    { id: 'three_point_percentage', label: '3P%' },
+    { id: 'minutes_played', label: 'Minutes' }
   ];
 
   const limitOptions = [10, 25, 50, 100, 200, 500, 1000];
@@ -46,16 +46,34 @@ const Leaders: React.FC = () => {
       try {
         setLoading(true);
 
+        // Check cache first
+        const cacheKey = `leaders-${category}-${statType}-2024`;
+        const cachedData = cacheService.get<LeadersResponse>(cacheKey);
+
+        if (cachedData) {
+          setLeaders(cachedData);
+          setTotalCount(cachedData.leaders.length);
+          setError(null);
+          setLoading(false);
+          return;
+        }
+
+        // If not in cache, fetch from API
         const data = await NBAService.getLeaders({
           season: 2024,
           category,
           type: isPercentageStat(category) ? undefined : statType
         });
 
-        setLeaders({
+        const leadersResponse = {
           leaders: data.leaders,
           total_count: data.leaders.length
-        });
+        };
+
+        // Store in cache
+        cacheService.set(cacheKey, leadersResponse);
+        
+        setLeaders(leadersResponse);
         setTotalCount(data.leaders.length);
         setError(null);
       } catch (err) {
@@ -222,12 +240,12 @@ const Leaders: React.FC = () => {
               </button>
             </div>
           )}
-          <div className="category-select">
-            {categories.map(cat => (
+          <div className="category-buttons">
+            {categories.map((cat) => (
               <button
-                key={cat.value}
-                className={`category-btn ${category === cat.value ? 'active' : ''}`}
-                onClick={() => setCategory(cat.value)}
+                key={cat.id}
+                className={`category-button ${cat.id === category ? 'active' : ''}`}
+                onClick={() => setCategory(cat.id)}
               >
                 {cat.label}
               </button>
@@ -258,7 +276,6 @@ const Leaders: React.FC = () => {
       {!loading && !error && leaders && (
         <>
           <div className="leaders-header-row">
-            <div className="header-rank">RANK</div>
             <div className="header-player">PLAYER/TEAM</div>
             <div className="header-value">
               {category === 'minutes_played' ? 'MIN' : 
@@ -269,12 +286,14 @@ const Leaders: React.FC = () => {
           <div className="leaders-list">
             {getPaginatedData(leaders.leaders).map((leader, index) => (
               <div key={leader.player_name} className="leader-card">
-                <div className="rank">
-                  {(currentPage - 1) * limit + index + 1}
-                </div>
                 <div className="player-info">
-                  <div className="player-name">{leader.player_name}</div>
-                  <div className="team-name">{leader.team_name}</div>
+                  <div className="rank">
+                    {(currentPage - 1) * limit + index + 1}
+                  </div>
+                  <div className="player-details">
+                    <div className="player-name">{leader.player_name}</div>
+                    <div className="team-name">{leader.team_name}</div>
+                  </div>
                 </div>
                 <div className="stat-value">
                   {getStatValue(leader)}

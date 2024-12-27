@@ -37,6 +37,12 @@ const Sidebar: React.FC = () => {
         >
           Leaders
         </button>
+        <button 
+          className="nav-item" 
+          onClick={() => handleNavigation('advanced')}
+        >
+          Advanced Stats
+        </button>
       </nav>
     </div>
   );
