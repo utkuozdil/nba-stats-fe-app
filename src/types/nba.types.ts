@@ -64,3 +64,9 @@ export interface LeadersResponse {
   leaders: Leader[];
   total_count: number;
 } 
+
+export interface StatsData {
+  player_name: string;
+  team_name: string;
+  value: number;
+} 
